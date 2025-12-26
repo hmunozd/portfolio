@@ -1,10 +1,78 @@
-<footer class="pt-10">
-    <div class="w-full max-w-xl mx-auto p-4 md:p-8">
-        <a href="/">
-            <img src="/logo.svg" alt="Hildefonso Muñoz logo" width="40">
-        </a>
-        <div>
-            <small> &copy; {new Date().getFullYear()} Hildefonso Muñoz.</small>
+---
+import { Github, Linkedin, Mail } from '@lucide/astro';
+
+const currentYear = new Date().getFullYear();
+
+const socialLinks = [
+    { name: 'GitHub', url: 'https://github.com/hmunozd', icon: Github },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/hmunozd/', icon: Linkedin },
+    { name: 'Email', url: 'mailto:jildo.air@gmail.com', icon: Mail },
+];
+
+const navLinks = [
+    { name: 'Inicio', url: '/' },
+    { name: 'Proyectos', url: '/#projects' },
+    { name: 'Tecnologías', url: '/#technologies' },
+    { name: 'Experiencia', url: '/#experience' },
+];
+---
+
+<footer class="bg-night border-t border-white/10 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            <!-- Brand Column -->
+            <div class="space-y-4">
+                <a href="/" class="flex items-center gap-2 group">
+                    <img src="/logo.svg" alt="Hildefonso Muñoz logo" class="w-10 h-10 transition-transform group-hover:scale-105" />
+                    <span class="font-bold text-xl tracking-tighter text-white group-hover:text-warm-orange transition-colors">HILDEV</span>
+                </a>
+                <p class="text-gray-400 leading-relaxed max-w-xs">
+                    Creando experiencias digitales únicas y funcionales. Desarrollador Web enfocado en la calidad y el detalle.
+                </p>
+            </div>
+
+            <!-- Links Column -->
+            <div>
+                <h3 class="font-bold text-white text-lg mb-4">Navegación</h3>
+                <ul class="space-y-3">
+                    {navLinks.map((link) => (
+                        <li>
+                            <a 
+                                href={link.url} 
+                                class="text-gray-400 hover:text-warm-orange transition-colors duration-300 flex items-center gap-2 group"
+                            >
+                                <span class="w-1.5 h-1.5 rounded-full bg-warm-orange opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                {link.name}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <!-- Social Column -->
+            <div>
+                <h3 class="font-bold text-white text-lg mb-4">Conectemos</h3>
+                <p class="text-gray-400 mb-6">¿Tienes un proyecto en mente? ¡Hablemos!</p>
+                <div class="flex gap-4">
+                    {socialLinks.map((social) => (
+                        <a 
+                            href={social.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-white/10 hover:text-warm-orange hover:scale-110 transition-all duration-300 border border-white/10 hover:border-warm-orange/50"
+                            aria-label={social.name}
+                        >
+                            <social.icon class="w-5 h-5" />
+                        </a>
+                    ))}
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+            <p>&copy; {currentYear} Hildefonso Muñoz. Todos los derechos reservados.</p>
+            <p>Hecho con <span class="text-warm-orange">♥</span> usando Astro & Tailwind</p>
         </div>
     </div>
 </footer>
