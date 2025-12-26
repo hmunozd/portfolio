@@ -1,0 +1,26 @@
+---
+import { technologies } from '../data/technologies';
+---
+
+<section id="technologies" class="py-20 bg-night text-white relative overflow-hidden">
+    <div class="container mx-auto px-4 max-w-4xl relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Tecnologías</h2>
+            <p class="text-gray-400 text-lg">Herramientas y frameworks que utilizo.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {technologies.map((tech) => (
+                <div class="p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-warm-orange/50 hover:bg-white/10 transition-all duration-300 group flex flex-col items-center justify-center gap-4 text-center">
+                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-warm-orange group-hover:scale-110 transition-transform duration-300">
+                        <tech.icon class="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-white group-hover:text-warm-orange transition-colors">{tech.name}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{tech.category}</p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>
