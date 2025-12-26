@@ -1,17 +1,114 @@
-<header class="flex justify-between max-w-7xl mx-auto p-5">
-    <div class="flex items-center gap-2">
-        <img class="h-12" src="/logo.svg" alt="Logo" />
-        <span class="font-bold text-2xl">HILDEV</span>
-    </div>
-    <nav class="font-bold">
-        <ul class="flex gap-4">
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/projects">Projects</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
+---
+import { Menu, X } from "@lucide/astro";
+
+const navItems = [
+    { name: "Inicio", url: "/" },
+    { name: "Proyectos", url: "/#projects" },
+    { name: "Tecnologías", url: "/#technologies" },
+    { name: "Experiencia", url: "/#experience" },
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 flex justify-center pt-6 px-4">
+    <!-- Desktop Floating Pill Nav -->
+    <nav 
+        id="desktop-nav"
+        class="hidden md:flex items-center gap-1 bg-night/80 backdrop-blur-md border border-white/10 rounded-full px-2 py-2 shadow-xl transition-all duration-300 hover:border-warm-orange/30"
+    >
+        {navItems.map((item) => (
+            <a 
+                href={item.url} 
+                class="px-5 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-full transition-all duration-300"
+            >
+                {item.name}
+            </a>
+        ))}
+        <a 
+            href="mailto:jildo.air@gmail.com"
+            class="ml-2 px-5 py-2 text-sm font-bold bg-warm-orange text-white rounded-full hover:bg-warm-orange/90 hover:scale-105 transition-all duration-300 shadow-lg shadow-warm-orange/20"
+        >
+            Contacto
+        </a>
     </nav>
-    <div>
-        <span>Hi!</span>
+
+    <!-- Mobile Header (Full Width) -->
+    <div class="md:hidden w-full flex justify-between items-center bg-night/90 backdrop-blur-md border border-white/10 rounded-2xl px-4 py-3 shadow-lg">
+        <a href="/" class="flex items-center gap-2">
+            <img class="h-8 w-auto" src="/logo.svg" alt="Logo" />
+            <span class="font-bold text-lg tracking-tighter text-white">HILDEV</span>
+        </a>
+
+        <button id="menu-toggle" class="text-white focus:outline-none p-1" aria-label="Toggle menu">
+            <Menu class="h-6 w-6" id="menu-icon" />
+            <X class="h-6 w-6 hidden" id="close-icon" />
+        </button>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div
+        id="mobile-menu"
+        class="fixed inset-0 z-40 bg-night flex flex-col items-center justify-center transition-all duration-300 opacity-0 pointer-events-none translate-y-4"
+    >
+        <div class="absolute inset-0 bg-[url('/grid.svg')] opacity-5"></div>
+        <nav class="relative z-10 flex flex-col items-center gap-8">
+            {navItems.map((item, index) => (
+                <a
+                    href={item.url}
+                    class="mobile-link text-3xl font-bold text-white/50 hover:text-warm-orange transition-colors duration-300"
+                    style={`transition-delay: ${(index + 1) * 50}ms`}
+                >
+                    {item.name}
+                </a>
+            ))}
+             <a 
+                href="mailto:jildo.air@gmail.com"
+                class="mobile-link mt-4 text-xl font-bold text-warm-orange border border-warm-orange/30 px-8 py-3 rounded-full hover:bg-warm-orange/10 transition-colors"
+            >
+                Contáctame
+            </a>
+        </nav>
     </div>
 </header>
+
+<script>
+    const toggleBtn = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    const menuIcon = document.getElementById("menu-icon");
+    const closeIcon = document.getElementById("close-icon");
+    const desktopNav = document.getElementById("desktop-nav");
+
+    let isMenuOpen = false;
+
+    toggleBtn?.addEventListener("click", () => {
+        isMenuOpen = !isMenuOpen;
+        
+        if (isMenuOpen) {
+            menu?.classList.remove("opacity-0", "pointer-events-none", "translate-y-4");
+            menuIcon?.classList.add("hidden");
+            closeIcon?.classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+        } else {
+            menu?.classList.add("opacity-0", "pointer-events-none", "translate-y-4");
+            menuIcon?.classList.remove("hidden");
+            closeIcon?.classList.add("hidden");
+            document.body.style.overflow = "";
+        }
+    });
+
+    document.querySelectorAll(".mobile-link").forEach(l => l.addEventListener("click", () => {
+        if(isMenuOpen) toggleBtn?.click();
+    }));
+
+    let lastScroll = 0;
+    window.addEventListener("scroll", () => {
+        const currentScroll = window.scrollY;
+        if (currentScroll > 50) {
+            desktopNav?.classList.add("py-1", "bg-night/95");
+            desktopNav?.classList.remove("py-2", "bg-night/80");
+        } else {
+            desktopNav?.classList.remove("py-1", "bg-night/95");
+            desktopNav?.classList.add("py-2", "bg-night/80");
+        }
+        lastScroll = currentScroll;
+    });
+</script>
